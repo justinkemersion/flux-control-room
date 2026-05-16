@@ -1,0 +1,68 @@
+import NextAuth from "next-auth";
+import type { Provider } from "next-auth/providers";
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
+
+function buildProviders(): Provider[] {
+  const providers: Provider[] = [];
+  if (process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET) {
+    providers.push(
+      GitHub({
+        clientId: process.env.AUTH_GITHUB_ID,
+        clientSecret: process.env.AUTH_GITHUB_SECRET,
+      }),
+    );
+  }
+  if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
+    providers.push(
+      Google({
+        clientId: process.env.AUTH_GOOGLE_ID,
+        clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      }),
+    );
+  }
+  return providers;
+}
+
+const providers = buildProviders();
+
+if (providers.length === 0) {
+  throw new Error(
+    "No auth providers configured. Set AUTH_GITHUB_* and/or AUTH_GOOGLE_* in .env",
+  );
+}
+
+function isStaleSessionCookieError(error: Error): boolean {
+  return (
+    error.name === "JWTSessionError" &&
+    error.cause instanceof Error &&
+    error.cause.message.includes("no matching decryption secret")
+  );
+}
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  session: { strategy: "jwt" },
+  logger: {
+    error(error) {
+      if (isStaleSessionCookieError(error)) return;
+      console.error("[auth]", error);
+    },
+  },
+  providers,
+  callbacks: {
+    jwt({ token, account }) {
+      if (account?.providerAccountId) {
+        token.sub = account.providerAccountId;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
+});

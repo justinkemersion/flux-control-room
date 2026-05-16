@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# flux-app-foundry
 
-## Getting Started
+A disciplined Flux-first CRUDe application system for contract-driven, anti-drift development with Cursor.
 
-First, run the development server:
+## Stack
+
+- Next.js App Router, React, TypeScript (strict), Tailwind CSS
+- Auth.js v5 (GitHub and/or Google — whichever env vars are set)
+- Flux / PostgREST / PostgreSQL with RLS-first schema
+- pnpm, Vitest, GitHub Actions CI
+
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+cp .env.example .env
+# Set AUTH_SECRET, at least one OAuth provider, FLUX_URL, FLUX_GATEWAY_JWT_SECRET
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Sign in, then use `/dashboard`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Flux setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create or link a Flux project; update `flux.json` slug/hash after `flux init`.
+2. Apply migrations in order under `sql/migrations/`.
+3. Replace `{{FLUX_API_SCHEMA}}` in `0003_profiles_flux_api_schema.sql` with your API schema name from `flux push`.
+4. Set `FLUX_POSTGREST_SCHEMA` to that schema in `.env`.
 
-## Learn More
+```bash
+flux push   # when Flux CLI is configured
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command | Purpose |
+|---------|---------|
+| `pnpm dev` | Development server |
+| `pnpm test` | Vitest + contract checks |
+| `pnpm check:drift` | File size, import boundaries, contracts |
+| `pnpm seed:demo` | Seed sample data (`DEMO_USER_SUB` required) |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Cursor workflow
 
-## Deploy on Vercel
+1. Read `_contract/` and the active `plans/NNN-*.md`
+2. Use `prompts/` templates for repeatable tasks
+3. Run `pnpm test` and `pnpm check:drift` before finishing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Repository layout
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `_contract/` — enforceable architectural laws
+- `plans/` — phased execution checklists
+- `prompts/` — reusable Cursor prompts
+- `lib/flux/` — single Flux HTTP boundary
+- `sql/migrations/` — RLS-first schema
+
+## Identity
+
+`session.user.id` is the OAuth provider account id. It becomes the JWT `sub` and all `user_id` columns. Flux is never called from the browser.
