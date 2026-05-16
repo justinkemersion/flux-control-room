@@ -13,8 +13,9 @@ git remote set-url origin git@github.com:you/roommating.git
 
 ## 2. Rename and record baseline
 
-1. Update `package.json` `name` to your app (e.g. `roommating`).
-2. Edit `FOUNDRY_BASELINE.md`:
+1. Update `package.json` `name` to your app (e.g. `roommating`). UI title and `<title>` derive from this (title-cased) unless you set `NEXT_PUBLIC_APP_NAME` / `NEXT_PUBLIC_APP_TAGLINE` in `.env`.
+2. Rebrand `README.md` for your domain.
+3. Edit `FOUNDRY_BASELINE.md`:
 
 ```md
 Based on: flux-app-foundry
@@ -25,7 +26,8 @@ Local deviations:
 - (list domain-specific additions)
 ```
 
-3. Keep `_drift/dependency-exceptions.md` empty unless you pin a package.
+4. Keep `_drift/dependency-exceptions.md` empty unless you pin a package.
+5. Update `flux.json` `slug` to match your Flux project (after `flux init`).
 
 ## 3. Environment
 
@@ -47,11 +49,21 @@ Do **not** search-replace schema names in SQL. Migrations are unqualified; Flux 
 
 ## 5. Verify
 
+**Fresh clone (no `.env` yet):**
+
 ```bash
-pnpm foundry:doctor
-pnpm foundry:new-app-check
-pnpm foundry:verify
+pnpm foundry:verify:template
 ```
+
+**Configured app (after `.env` + Flux sync):**
+
+```bash
+pnpm foundry:doctor      # preflight — env, OAuth, flux hash, schema
+pnpm foundry:new-app-check
+pnpm foundry:verify        # same gates as template + build using your secrets
+```
+
+`foundry:verify` requires a configured app environment. `foundry:verify:template` checks repo structure and compiles with CI stub env only (no real secrets).
 
 ## 6. Domain work
 

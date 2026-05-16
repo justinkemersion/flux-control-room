@@ -19,12 +19,4 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
-      - run: pnpm typecheck
-      - run: pnpm test
-      - run: pnpm check:drift
-      - run: pnpm build
-        env:
-          AUTH_SECRET: ci-build-secret-min-32-characters-long
-          AUTH_GITHUB_ID: ci
-          AUTH_GITHUB_SECRET: ci
+      - run: pnpm foundry:verify:template

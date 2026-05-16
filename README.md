@@ -2,7 +2,7 @@
 
 A disciplined Flux-first CRUDe application system for contract-driven, anti-drift development with Cursor.
 
-**Status:** Milestone 0.1 foundation · 0.2 hardening · 0.3 observability.
+**Status:** 0.1 foundation · 0.2 repeatable setup · 0.3 observable architecture · 0.4 fork-proven.
 
 ## Stack
 
@@ -36,8 +36,9 @@ See [`sql/migrations/README.md`](sql/migrations/README.md).
 | Command | Purpose |
 |---------|---------|
 | `pnpm foundry:report` | Architecture reports + generated route/component inventories |
-| `pnpm foundry:doctor` | Validate env, Flux config, SQL hygiene, tooling |
-| `pnpm foundry:verify` | Full gate: lint, typecheck, test, drift, build |
+| `pnpm foundry:doctor` | Validate env, Flux config, SQL hygiene, tooling (preflight for app work) |
+| `pnpm foundry:verify:template` | CI / fresh clone: lint, typecheck, test, drift, fork check, build — **no `.env`** |
+| `pnpm foundry:verify` | Full gate with your `.env`: run `foundry:doctor` first on forks |
 | `pnpm foundry:new-app-check` | Fork readiness (baseline, contracts, flux hash) |
 | `pnpm flux:schema:sync` | Derive PostgREST schema from `flux.json` |
 | `pnpm deps:check` / `pnpm deps:audit` | Dependency maintenance |
@@ -53,7 +54,7 @@ Track lineage in `FOUNDRY_BASELINE.md` and pins in `_drift/dependency-exceptions
 
 1. Read `_contract/` and the active `plans/NNN-*.md`
 2. Use `prompts/` templates for repeatable tasks
-3. Run `pnpm foundry:verify` before finishing
+3. Template repo: `pnpm foundry:verify:template`. Fork with `.env`: `pnpm foundry:doctor` then `pnpm foundry:verify`
 
 ## Philosophy
 

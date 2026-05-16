@@ -19,15 +19,9 @@
 Run on every PR:
 
 1. `pnpm install`
-2. `pnpm lint`
-3. `pnpm typecheck`
-4. `pnpm test`
-5. `pnpm check:file-sizes`
-6. `pnpm check:imports`
-7. `pnpm check:contracts`
-8. `pnpm check:sql`
-9. `pnpm check:graph`
-10. `pnpm build`
+2. `pnpm foundry:verify:template` — lint, typecheck, test, drift checks, fork check, build (CI stub env; no `.env` file)
+
+Forks with configured `.env` should also pass `pnpm foundry:doctor` and `pnpm foundry:verify` before merge.
 
 ## Vitest guards
 

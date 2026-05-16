@@ -14,7 +14,7 @@ The model proposes; the contracts dispose.
 
 1. Read contracts and the active plan before generating code.
 2. Prefer extending existing patterns over inventing parallel ones.
-3. Run `pnpm foundry:verify` before claiming done.
+3. Run `pnpm foundry:verify:template` on the template (no `.env`); on forks run `pnpm foundry:doctor` then `pnpm foundry:verify`.
 4. When the model drifts, fix the guardrail — not just the symptom.
 
 ## What AI is bad at without structure

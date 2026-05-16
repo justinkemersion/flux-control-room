@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Providers } from "@/components/providers";
+import { getAppDisplayName, getAppTagline } from "@/lib/config/app";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "flux-app-foundry",
-  description: "Flux-first CRUDe application system",
+  title: getAppDisplayName(),
+  description: getAppTagline(),
 };
 
 export default function RootLayout({
