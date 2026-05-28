@@ -1,12 +1,12 @@
 # Foundry Baseline
 
-This repository **is** the upstream template.
+Fork of `flux-app-foundry` for the **Flux Control Room** showcase app.
 
 | Field | Value |
 |-------|--------|
-| Based on | `flux-app-foundry` (self) |
-| Baseline commit | See `git rev-parse HEAD` when forking |
-| Last synced | N/A (upstream source of truth) |
+| Based on | `flux-app-foundry` |
+| Baseline commit | `84ae115e91f1e9208c33927ce257263a3e1c1de3` |
+| Last synced | 2026-05-27 (initial fork) |
 
 ## Blessed stack (maintain in dependency policy)
 
@@ -18,6 +18,12 @@ This repository **is** the upstream template.
 
 ## Local deviations
 
-_None — this is the template._
+| Deviation | Reason |
+|-----------|--------|
+| Dark operational UI tokens | Industrial control-room aesthetic (`ui-mobile-first.md`) |
+| Domain contracts (`product-lane`, `data-model`, `runner-pattern`, `ui-mobile-first`, `flux-integration`) | Control Room showcase scope |
+| Runner scripts (planned Phase 5) | Job-claiming demo pattern |
+| Primary route `/control-room` | Mobile-first operational dashboard |
+| Generic Foundry CRUD hidden from nav | Control Room is demo focus; routes kept as reference scaffolding |
 
-Forks should copy this file and fill in baseline commit, last synced date, and deviations.
+Forks should update baseline commit and last synced date when merging upstream.
