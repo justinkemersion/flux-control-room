@@ -1,14 +1,15 @@
 import Link from "next/link";
-import { auth } from "@/auth";
+import { authSafe } from "@/auth";
 import { SignInButtons } from "@/components/auth/SignInButtons";
 import { configuredAuthProviders } from "@/lib/auth/providers";
 import { getAppDisplayName, getAppTagline } from "@/lib/config/app";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { FluxUserSubCard } from "@/components/dev/FluxUserSubCard";
+import { clearStaleSessionAction } from "@/app/actions/clear-stale-session";
 
 export default async function HomePage() {
-  const session = await auth();
+  const session = await authSafe();
   const providers = configuredAuthProviders();
 
   return (
@@ -33,6 +34,15 @@ export default async function HomePage() {
           <SignInButtons providers={providers} />
         )}
       </Card>
+
+      <form action={clearStaleSessionAction}>
+        <button
+          type="submit"
+          className="w-full text-center text-xs text-[var(--muted-fg)] underline"
+        >
+          Clear stale session cookie
+        </button>
+      </form>
 
       <p className="text-center text-xs text-[var(--muted-fg)]">
         <Link href="/login" className="underline">

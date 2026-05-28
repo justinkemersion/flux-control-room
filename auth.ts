@@ -34,12 +34,18 @@ if (providers.length === 0 && process.env.NODE_ENV !== "test") {
   );
 }
 
-function isStaleSessionCookieError(error: Error): boolean {
-  return (
-    error.name === "JWTSessionError" &&
-    error.cause instanceof Error &&
-    error.cause.message.includes("no matching decryption secret")
-  );
+function isJwtSessionError(error: unknown): boolean {
+  return error instanceof Error && error.name === "JWTSessionError";
+}
+
+/** Like auth(), but returns null when the session cookie cannot be decoded (e.g. rotated AUTH_SECRET). */
+export async function authSafe() {
+  try {
+    return await auth();
+  } catch (error) {
+    if (isJwtSessionError(error)) return null;
+    throw error;
+  }
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -48,7 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   logger: {
     error(error) {
-      if (isStaleSessionCookieError(error)) return;
+      if (error instanceof Error && isJwtSessionError(error)) return;
       console.error("[auth]", error);
     },
   },

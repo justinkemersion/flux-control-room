@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { authSafe } from "@/auth";
 
 export class UnauthorizedError extends Error {
   constructor(message = "Unauthorized") {
@@ -9,7 +9,7 @@ export class UnauthorizedError extends Error {
 
 /** Returns stable OAuth subject for Flux RLS / JWT `sub`. */
 export async function requireSessionSub(): Promise<string> {
-  const session = await auth();
+  const session = await authSafe();
   const sub = session?.user?.id;
   if (!sub) {
     throw new UnauthorizedError();

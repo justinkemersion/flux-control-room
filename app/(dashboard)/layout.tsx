@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { authSafe } from "@/auth";
 import { AppShell } from "@/components/shell/AppShell";
 
 export default async function DashboardLayout({
@@ -8,7 +8,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
+  const session = await authSafe();
   if (!session?.user?.id) {
     redirect("/login");
   }
