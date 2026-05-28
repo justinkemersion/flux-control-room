@@ -120,6 +120,8 @@ Runner Process
 |---------|------------|
 | Empty control room after sign-in | Set `CONTROL_ROOM_USER_SUB` to your OAuth sub; run `pnpm seed:control-room` |
 | Flux 403 / schema errors | Run `pnpm flux:schema:sync` and `pnpm flux:doctor` |
+| `42501 permission denied for table` on v2_shared | Run `flux push sql/migrations/0009_v2_tenant_role_grants.sql` |
+| `42501 row-level security policy` on v2_shared | Run `flux push sql/migrations/0010_v2_tenant_rls_policies.sql` |
 | Runner finds no jobs | Trigger an operator action from `/control-room` or wait for drift cadence |
 | Stale runner badge | Start `pnpm runner:dev`; heartbeats mark stale after 30s |
 

@@ -12,6 +12,11 @@ When you run `flux push`, the Flux CLI applies these files inside your project's
 2. `0002_profiles_grants.sql`
 3. `0004_core_entities.sql`
 4. `0005_core_grants.sql`
+5. `0006_control_room_entities.sql`
+6. `0007_control_room_grants.sql`
+7. `0008_runner_claim_rpc.sql`
+8. `0009_v2_tenant_role_grants.sql` — **required on v2_shared** (grants DML to `t_*_role`)
+9. `0010_v2_tenant_rls_policies.sql` — **required on v2_shared** (RLS policies for `t_*_role`, not `authenticated`)
 
 ## PostgREST profile
 
