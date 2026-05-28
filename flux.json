@@ -1,4 +1,7 @@
 {
   "slug": "flux-control-room",
-  "hash": "REPLACE_AFTER_FLUX_INIT"
+  "hash": "faab439",
+  "apiUrl": "https://api--flux-control-room--faab439.vsl-base.com",
+  "mode": "v2_shared",
+  "apiSchema": "t_b4eaf225f191_api"
 }

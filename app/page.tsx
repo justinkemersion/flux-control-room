@@ -5,6 +5,7 @@ import { configuredAuthProviders } from "@/lib/auth/providers";
 import { getAppDisplayName, getAppTagline } from "@/lib/config/app";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { FluxUserSubCard } from "@/components/dev/FluxUserSubCard";
 
 export default async function HomePage() {
   const session = await auth();
@@ -19,8 +20,11 @@ export default async function HomePage() {
 
       <Card>
         {session?.user ? (
-          <div className="flex flex-col gap-3">
-            <p className="text-sm">Signed in as {session.user.email ?? session.user.id}</p>
+          <div className="flex flex-col gap-4">
+            <p className="text-sm">
+              Signed in{session.user.email ? ` as ${session.user.email}` : ""}
+            </p>
+            <FluxUserSubCard sub={session.user.id} />
             <Link href="/control-room">
               <Button className="w-full">Open control room</Button>
             </Link>

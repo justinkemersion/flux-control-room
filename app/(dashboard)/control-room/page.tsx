@@ -11,6 +11,7 @@ import { StatusSummary } from "@/components/control-room/StatusSummary";
 import { SystemHealth } from "@/components/control-room/SystemHealth";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
+import { FluxUserSubCard } from "@/components/dev/FluxUserSubCard";
 
 const FACILITY_NAME = "Vessel Reactor One";
 
@@ -42,6 +43,19 @@ export default async function ControlRoomPage() {
             Ensure Flux is configured, migrations are pushed, and data is seeded for your account.
           </p>
         </Card>
+      ) : null}
+
+      {!loadError && data && data.metrics.length === 0 ? (
+        <div className="mb-6 flex flex-col gap-4">
+          <Card>
+            <p className="text-sm">No facility data yet for your account.</p>
+            <p className="mt-2 text-xs text-[var(--muted-fg)]">
+              Copy your Flux user id below into <code className="font-mono">.env</code>, then run{" "}
+              <code className="font-mono">pnpm seed:control-room</code>.
+            </p>
+          </Card>
+          <FluxUserSubCard sub={sub} />
+        </div>
       ) : null}
 
       {data ? (

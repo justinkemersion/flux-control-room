@@ -15,14 +15,10 @@ import { upsertHeartbeat, getHeartbeat } from "../../lib/flux/runner-heartbeats"
 import { listAnomalies, patchAnomaly } from "../../lib/flux/anomalies";
 import { listComponents, patchComponent } from "../../lib/flux/system-components";
 import { loadEnvFiles } from "../lib/load-env";
-
-function resolveSub(): string {
-  return (
-    process.env.CONTROL_ROOM_USER_SUB?.trim() ||
-    process.env.DEMO_USER_SUB?.trim() ||
-    ""
-  );
-}
+import {
+  CONTROL_ROOM_SUB_HINT,
+  resolveControlRoomSub,
+} from "../lib/resolve-control-room-sub";
 
 function runnerName(): string {
   return process.env.RUNNER_NAME?.trim() || "runner-01";
@@ -212,9 +208,9 @@ async function runOnce(sub: string, name: string): Promise<boolean> {
 
 async function main() {
   loadEnvFiles();
-  const sub = resolveSub();
+  const sub = resolveControlRoomSub();
   if (!sub) {
-    console.error("Set CONTROL_ROOM_USER_SUB or DEMO_USER_SUB");
+    console.error(CONTROL_ROOM_SUB_HINT);
     process.exit(1);
   }
 

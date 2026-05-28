@@ -8,6 +8,10 @@ import { upsertHeartbeat } from "../lib/flux/runner-heartbeats";
 import { upsertComponent } from "../lib/flux/system-components";
 import { createAnomaly } from "../lib/flux/anomalies";
 import { loadEnvFiles } from "./lib/load-env";
+import {
+  CONTROL_ROOM_SUB_HINT,
+  resolveControlRoomSub,
+} from "./lib/resolve-control-room-sub";
 
 const METRICS = [
   { metric_key: "reactor_stability", label: "Reactor stability", unit: "index", value: 94.2 },
@@ -28,14 +32,6 @@ const COMPONENTS = [
   { component_key: "auth_bridge", label: "Auth Bridge" },
 ] as const;
 
-function resolveSub(): string {
-  return (
-    process.env.CONTROL_ROOM_USER_SUB?.trim() ||
-    process.env.DEMO_USER_SUB?.trim() ||
-    ""
-  );
-}
-
 function seededValue(base: number, index: number): number {
   const drift = Math.sin(index / 3) * (base * 0.02);
   return Math.round((base + drift) * 10) / 10;
@@ -43,9 +39,9 @@ function seededValue(base: number, index: number): number {
 
 async function main() {
   loadEnvFiles();
-  const sub = resolveSub();
+  const sub = resolveControlRoomSub();
   if (!sub) {
-    console.error("Set CONTROL_ROOM_USER_SUB or DEMO_USER_SUB to your OAuth provider account id");
+    console.error(CONTROL_ROOM_SUB_HINT);
     process.exit(1);
   }
 
