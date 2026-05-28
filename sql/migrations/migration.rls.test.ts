@@ -37,6 +37,14 @@ describe("grants migrations", () => {
     expect(sql).toContain("records");
     expect(sql).toContain("activity_events");
   });
+
+  it("0007_control_room_grants grants authenticated on control room tables", () => {
+    const sql = readFileSync(join(dir, "0007_control_room_grants.sql"), "utf8");
+    expect(sql.toLowerCase()).toContain("authenticated");
+    expect(sql).toContain("control_metrics");
+    expect(sql).toContain("runner_jobs");
+    expect(sql).toContain("signal_events");
+  });
 });
 
 describe("SQL hygiene", () => {

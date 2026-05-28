@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { cn } from "@/lib/ui/cn";
 
-const links = [
-  { href: "/dashboard", label: "Overview" },
-  { href: "/records", label: "Records" },
-  { href: "/activity", label: "Activity" },
-  { href: "/settings/profile", label: "Profile" },
-];
+const links = [{ href: "/control-room", label: "Control Room" }];
 
+/** Reference routes kept in repo but hidden from nav: /records, /activity, /settings/profile */
 export function SidebarNav({ pathname }: { pathname: string }) {
   return (
     <nav className="flex flex-col gap-1 p-4">

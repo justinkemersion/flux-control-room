@@ -21,8 +21,8 @@ export default async function HomePage() {
         {session?.user ? (
           <div className="flex flex-col gap-3">
             <p className="text-sm">Signed in as {session.user.email ?? session.user.id}</p>
-            <Link href="/dashboard">
-              <Button className="w-full">Open workspace</Button>
+            <Link href="/control-room">
+              <Button className="w-full">Open control room</Button>
             </Link>
           </div>
         ) : (

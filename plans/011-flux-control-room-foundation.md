@@ -126,47 +126,46 @@ See `_contract/flux-integration.md`.
 - [x] `_contract/flux-integration.md`
 - [x] This plan file
 - [x] Update `FOUNDRY_BASELINE.md`
-- [ ] **Stop for review** — no SQL/UI/runner yet
 
 ### Phase 2 — Schema and seed
 
-- [ ] `0006_control_room_entities.sql`
-- [ ] `0007_control_room_grants.sql`
-- [ ] `0008_runner_claim_rpc.sql`
-- [ ] `flux push` each file in order
+- [x] `0006_control_room_entities.sql`
+- [x] `0007_control_room_grants.sql`
+- [x] `0008_runner_claim_rpc.sql`
+- [ ] `flux push` each file in order (requires Flux project)
 - [ ] `pnpm flux:schema:sync` + `pnpm flux:doctor`
-- [ ] `scripts/seed-control-room.ts` + `pnpm seed:control-room`
-- [ ] Verify PostgREST reads
+- [x] `scripts/seed-control-room.ts` + `pnpm seed:control-room`
+- [ ] Verify PostgREST reads (after flux push)
 
 ### Phase 3 — Read-only dashboard
 
-- [ ] `app/(dashboard)/control-room/page.tsx`
-- [ ] `components/control-room/*` section components
-- [ ] Dark tokens in `app/globals.css`
-- [ ] Loading / empty / error states
-- [ ] Hide generic nav items; add Control Room link
-- [ ] Mobile shell adjustments
+- [x] `app/(dashboard)/control-room/page.tsx`
+- [x] `components/control-room/*` section components
+- [x] Dark tokens in `app/globals.css`
+- [x] Loading / empty / error states
+- [x] Hide generic nav items; add Control Room link
+- [x] Mobile shell adjustments
 
 ### Phase 4 — Operator actions
 
-- [ ] `app/(dashboard)/actions/control-room.ts`
-- [ ] Wire 6 operator buttons
-- [ ] Verify job + event rows on action
+- [x] `app/(dashboard)/actions/control-room.ts`
+- [x] Wire 6 operator buttons
+- [ ] Verify job + event rows on action (after flux push + seed)
 
 ### Phase 5 — Runner MVP
 
-- [ ] `scripts/runner/control-room-runner.ts`
-- [ ] `pnpm runner:dev` + `pnpm runner:once`
-- [ ] End-to-end: action → claim → process → UI refresh
-- [ ] Stale lease reclaim test
+- [x] `scripts/runner/control-room-runner.ts`
+- [x] `pnpm runner:dev` + `pnpm runner:once`
+- [ ] End-to-end: action → claim → process → UI refresh (after flux push)
+- [ ] Stale lease reclaim test (manual)
 
 ### Phase 6 — Polish / public demo
 
-- [ ] README: setup, architecture diagram, troubleshooting, leases
-- [ ] Lead with *systemd keeps the process alive; Postgres keeps the work safe.*
-- [ ] Note generic CRUD as reference scaffolding
-- [ ] Screenshots placeholder
-- [ ] `pnpm foundry:verify` green
+- [x] README: setup, architecture diagram, troubleshooting, leases
+- [x] Lead with *systemd keeps the process alive; Postgres keeps the work safe.*
+- [x] Note generic CRUD as reference scaffolding
+- [x] Screenshots placeholder
+- [ ] `pnpm foundry:verify` green (requires `.env` + `flux init`)
 
 ## Verification checklist
 
